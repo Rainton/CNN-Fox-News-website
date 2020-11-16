@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Homework6</title>
+        <link rel="stylesheet" type="text/css" href="/static/index.css">
+        <script src="https://d3js.org/d3.v4.js"></script>
+        <script src="https://cdn.jsdelivr.net/gh/holtzy/D3-graph-gallery@master/LIB/d3.layout.cloud.js"></script>
+    </head>
+    <body>
+        <script>
+            function googleNewsClick(){
+                document.getElementById('content-googlenews').className = 'content-active';
+                document.getElementById('content-search').className = 'content-deactive';
+                document.getElementsByClassName('buttonup')[0].style.backgroundColor = '#555555';
+                document.getElementsByClassName('buttonup')[0].style.color = 'white';
+                document.getElementsByClassName('buttondown')[0].style.backgroundColor = '#e7e7e7';
+                document.getElementsByClassName('buttondown')[0].style.color = 'black';
+            }
+
+            function searchClick(){
+                document.getElementById('content-googlenews').className = 'content-deactive';
+                document.getElementById('content-search').className = 'content-active';
+                document.getElementsByClassName('buttondown')[0].style.backgroundColor = '#555555';
+                document.getElementsByClassName('buttondown')[0].style.color = 'white';
+                document.getElementsByClassName('buttonup')[0].style.backgroundColor = '#e7e7e7';
+                document.getElementsByClassName('buttonup')[0].style.color = 'black';
+            }
+        </script>
+        <div class="btn-group">
+            <button class="buttonup" onclick="googleNewsClick()">Google News</button>
+            <button class="buttondown" onclick="searchClick()">Search</button>
+        </div>
+
+        <div class="content-active" id="content-googlenews">
+            <div class="slideshow" style="display: inline;">
+                <a id="slide-a0" target="view_window" style="text-decoration: none;">
+                    <div class="slide" id="slide0">
+                        <div class="title" id="slide-title0"></div>
+                        <div class="description" id="slide-des0"></div>
+                    </div>
+                </a>
+                <a id="slide-a1" target="view_window" style="text-decoration: none;">
+                    <div class="slide" id="slide1">
+                        <div class="title" id="slide-title1"></div>
+                        <div class="description" id="slide-des1"></div>
+                    </div>
+                </a>
+                <a id="slide-a2" target="view_window" style="text-decoration: none;">
+                    <div class="slide" id="slide2">
+                        <div class="title" id="slide-title2"></div>
+                        <div class="description" id="slide-des2"></div>
+                    </div>
+                </a>
+                <a id="slide-a3" target="view_window" style="text-decoration: none;">
+                    <div class="slide" id="slide3">
+                        <div class="title" id="slide-title3"></div>
+                        <div class="description" id="slide-des3"></div>
+                    </div>
+                </a>
+                <a id="slide-a4" target="view_window" style="text-decoration: none;">
+                    <div class="slide" id="slide4">
+                        <div class="title" id="slide-title4"></div>
+                        <div class="description" id="slide-des4"></div>
+                    </div>
+                </a>
+            </div>
+            <div id="wordCloud"></div>
+            <h2 style="margin-bottom: 0; font-family: Georgia, 'Times New Roman', Times, serif;">CNN</h2>
+            <hr>
+            <div class="cards">
+                <a id="card-cnn-a0" target="view_window" style="text-decoration: none;">
+                    <div class="card" id="card-cnn-0">
+                        <div class="img" id="card-cnn-img0"></div>
+                        <div class="container">
+                            <h4><b id="card-cnn-title0"></b></h4>
+                            <p id="card-cnn-des0"></p>
+                        </div>
+                    </div>
+                </a>
+                <a id="card-cnn-a1" target="view_window" style="text-decoration: none;">
+                    <div class="card" id="card-cnn-1">
+                        <div class="img" id="card-cnn-img1"></div>
+                        <div class="container">
+                            <h4><b id="card-cnn-title1"></b></h4>
+                            <p id="card-cnn-des1"></p>
+                        </div>
+                    </div>
+                </a>
+                <a id="card-cnn-a2" target="view_window" style="text-decoration: none;">
+                    <div class="card" id="card-cnn-2">
+                        <div class="img" id="card-cnn-img2"></div>
+                        <div class="container">
+                            <h4><b id="card-cnn-title2"></b></h4>
+                            <p id="card-cnn-des2"></p>
+                        </div>
+                    </div>
+                </a>
+                <a id="card-cnn-a3" target="view_window" style="text-decoration: none;">
+                    <div class="card" id="card-cnn-3">
+                        <div class="img" id="card-cnn-img3"></div>
+                        <div class="container">
+                            <h4><b id="card-cnn-title3"></b></h4>
+                            <p id="card-cnn-des3"></p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <h2 style="margin-bottom: 0; font-family: Georgia, 'Times New Roman', Times, serif;">Fox News</h2>
+            <hr>
+            <div class="cards">
+                <a id="card-fox-a0" target="view_window" style="text-decoration: none;">
+                    <div class="card" id="card-fox-0">
+                        <div class="img" id="card-fox-img0"></div>
+                        <div class="container">
+                            <h4><b id="card-fox-title0"></b></h4>
+                            <p id="card-fox-des0"></p>
+                        </div>
+                    </div>
+                </a>
+                <a id="card-fox-a1" target="view_window" style="text-decoration: none;">
+                    <div class="card" id="card-fox-1">
+                        <div class="img" id="card-fox-img1"></div>
+                        <div class="container">
+                            <h4><b id="card-fox-title1"></b></h4>
+                            <p id="card-fox-des1"></p>
+                        </div>
+                    </div>
+                </a><a id="card-fox-a2" target="view_window" style="text-decoration: none;">
+                    <div class="card" id="card-fox-2">
+                        <div class="img" id="card-fox-img2"></div>
+                        <div class="container">
+                            <h4><b id="card-fox-title2"></b></h4>
+                            <p id="card-fox-des2"></p>
+                        </div>
+                    </div>
+                </a><a id="card-fox-a3" target="view_window" style="text-decoration: none;">
+                    <div class="card" id="card-fox-3">
+                        <div class="img" id="card-fox-img3"></div>
+                        <div class="container">
+                            <h4><b id="card-fox-title3"></b></h4>
+                            <p id="card-fox-des3"></p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="content-deactive" id="content-search">
+            <form onsubmit="return submitcheck()" method="POST" id="form">
+                <label for="keyword" style="margin-right: 10px;">Keyword<span style="color: red;">*</span> </label>
+                <input type="text" id="keyword" name="keyword" style="margin-right: 10px;" required>
+                <label for="from" style="margin-right: 10px;">From<span style="color: red;">*</span> </label>
+                <input type="date" id="from" name="from" style="margin-right: 10px; font-family:'Courier New', Courier, monospace;" required>
+                <label for="to" style="margin-right: 10px;">To<span style="color: red;">*</span> </label>
+                <input type="date" id="to" name="to" style="font-family:'Courier New', Courier, monospace;" required><br>
+                <label for="category" style="margin-right: 10px;">Category </label>
+                <select id="category" name="category" style="margin-right: 10px;" onchange="getSources()">
+                    <option value="all">all</option>
+                    <option value="business">business</option>
+                    <option value="entertainment">entertainment</option>
+                    <option value="general">general</option>
+                    <option value="health">health</option>
+                    <option value="science">science</option>
+                    <option value="sports">sports</option>
+                    <option value="technology">technology</option>
+                </select>
+                <label for="source" style="margin-right: 10px;">Source </label>
+                <select id="source" name="source">
+                    <option value="all">all</option>
+                </select><br>
+                <input id="search" type="submit" value="Search" style="margin-right: 20px;">
+                <input id="clear" type="reset" value="Clear" onclick="clearSearch()">
+            </form>
+            <div class="search-cards">
+                <div class="search-card" id="search-card0" onclick="clickCard(0)">
+                    <div class="img" id="search-card-img0"></div>
+                    <div class="container">
+                        <h4><b id="search-card-title0">test</b></h4>
+                        <p id="search-card-des0">...</p>
+                    </div>
+                </div>
+                <div class="original-card" id="original-card0">
+                    <div class="img" id="original-card-img0"></div>
+                    <div class="container">
+                        <h4><b id="original-card-title0">test</b></h4>
+                        <b>Author: </b><span id="original-card-author0"></span><br>
+                        <b>Source: </b><span id="original-card-source0"></span><br>
+                        <b>Date: </b><span id="original-card-date0"></span><br>
+                        <p id="original-card-des0">...</p>
+                        <a id="original-card-a0" target="view_window">See Original Post</a>
+                    </div>
+                    <a class="delete" href="javascript:void(0);" onclick="clickDelete(0)">×</a>
+                </div>
+                <div class="search-card" id="search-card1" onclick="clickCard(1)">
+                    <div class="img" id="search-card-img1"></div>
+                    <div class="container">
+                        <h4><b id="search-card-title1">test</b></h4>
+                        <p id="search-card-des1">...</p>
+                    </div>
+                </div>
+                <div class="original-card" id="original-card1">
+                    <div class="img" id="original-card-img1"></div>
+                    <div class="container">
+                        <h4><b id="original-card-title1">test</b></h4>
+                        <b>Author: </b><span id="original-card-author1"></span><br>
+                        <b>Source: </b><span id="original-card-source1"></span><br>
+                        <b>Date: </b><span id="original-card-date1"></span><br>
+                        <p id="original-card-des1">...</p>
+                        <a id="original-card-a1" target="view_window">See Original Post</a>
+                    </div>
+                    <a class="delete" href="javascript:void(0);" onclick="clickDelete(1)">×</a>
+                </div>
+                <div class="search-card" id="search-card2" onclick="clickCard(2)">
+                    <div class="img" id="search-card-img2"></div>
+                    <div class="container">
+                        <h4><b id="search-card-title2">test</b></h4>
+                        <p id="search-card-des2">...</p>
+                    </div>
+                </div>
+                <div class="original-card" id="original-card2">
+                    <div class="img" id="original-card-img2"></div>
+                    <div class="container">
+                        <h4><b id="original-card-title2">test</b></h4>
+                        <b>Author: </b><span id="original-card-author2"></span><br>
+                        <b>Source: </b><span id="original-card-source2"></span><br>
+                        <b>Date: </b><span id="original-card-date2"></span><br>
+                        <p id="original-card-des2">...</p>
+                        <a id="original-card-a2" target="view_window">See Original Post</a>
+                    </div>
+                    <a class="delete" href="javascript:void(0);" onclick="clickDelete(2)">×</a>
+                </div>
+                <div class="search-card" id="search-card3" onclick="clickCard(3)">
+                    <div class="img" id="search-card-img3"></div>
+                    <div class="container">
+                        <h4><b id="search-card-title3">test</b></h4>
+                        <p id="search-card-des3">...</p>
+                    </div>
+                </div>
+                <div class="original-card" id="original-card3">
+                    <div class="img" id="original-card-img3"></div>
+                    <div class="container">
+                        <h4><b id="original-card-title3">test</b></h4>
+                        <b>Author: </b><span id="original-card-author3"></span><br>
+                        <b>Source: </b><span id="original-card-source3"></span><br>
+                        <b>Date: </b><span id="original-card-date3"></span><br>
+                        <p id="original-card-des3">...</p>
+                        <a id="original-card-a3" target="view_window">See Original Post</a>
+                    </div>
+                    <a class="delete" href="javascript:void(0);" onclick="clickDelete(3)">×</a>
+                </div>
+                <div class="search-card" id="search-card4" onclick="clickCard(4)">
+                    <div class="img" id="search-card-img4"></div>
+                    <div class="container">
+                        <h4><b id="search-card-title4">test</b></h4>
+                        <p id="search-card-des4">...</p>
+                    </div>
+                </div>
+                <div class="original-card" id="original-card4">
+                    <div class="img" id="original-card-img4"></div>
+                    <div class="container">
+                        <h4><b id="original-card-title4">test</b></h4>
+                        <b>Author: </b><span id="original-card-author4"></span><br>
+                        <b>Source: </b><span id="original-card-source4"></span><br>
+                        <b>Date: </b><span id="original-card-date4"></span><br>
+                        <p id="original-card-des4">...</p>
+                        <a id="original-card-a4" target="view_window">See Original Post</a>
+                    </div>
+                    <a class="delete" href="javascript:void(0);" onclick="clickDelete(4)">×</a>
+                </div>
+                <button id="showmore" onclick="clickMore()">Show More</button>
+                <div class="search-card" id="search-card5" onclick="clickCard(5)">
+                    <div class="img" id="search-card-img5"></div>
+                    <div class="container">
+                        <h4><b id="search-card-title5">test</b></h4>
+                        <p id="search-card-des5">...</p>
+                    </div>
+                </div>
+                <div class="original-card" id="original-card5">
+                    <div class="img" id="original-card-img5"></div>
+                    <div class="container">
+                        <h4><b id="original-card-title5">test</b></h4>
+                        <b>Author: </b><span id="original-card-author5"></span><br>
+                        <b>Source: </b><span id="original-card-source5"></span><br>
+                        <b>Date: </b><span id="original-card-date5"></span><br>
+                        <p id="original-card-des5">...</p>
+                        <a id="original-card-a5" target="view_window">See Original Post</a>
+                    </div>
+                    <a class="delete" href="javascript:void(0);" onclick="clickDelete(5)">×</a>
+                </div>
+                <div class="search-card" id="search-card6" onclick="clickCard(6)">
+                    <div class="img" id="search-card-img6"></div>
+                    <div class="container">
+                        <h4><b id="search-card-title6">test</b></h4>
+                        <p id="search-card-des6">...</p>
+                    </div>
+                </div>
+                <div class="original-card" id="original-card6">
+                    <div class="img" id="original-card-img6"></div>
+                    <div class="container">
+                        <h4><b id="original-card-title6">test</b></h4>
+                        <b>Author: </b><span id="original-card-author6"></span><br>
+                        <b>Source: </b><span id="original-card-source6"></span><br>
+                        <b>Date: </b><span id="original-card-date6"></span><br>
+                        <p id="original-card-des6">...</p>
+                        <a id="original-card-a6" target="view_window">See Original Post</a>
+                    </div>
+                    <a class="delete" href="javascript:void(0);" onclick="clickDelete(6)">×</a>
+                </div>
+                <div class="search-card" id="search-card7" onclick="clickCard(7)">
+                    <div class="img" id="search-card-img7"></div>
+                    <div class="container">
+                        <h4><b id="search-card-title7">test</b></h4>
+                        <p id="search-card-des7">...</p>
+                    </div>
+                </div>
+                <div class="original-card" id="original-card7">
+                    <div class="img" id="original-card-img7"></div>
+                    <div class="container">
+                        <h4><b id="original-card-title7">test</b></h4>
+                        <b>Author: </b><span id="original-card-author7"></span><br>
+                        <b>Source: </b><span id="original-card-source7"></span><br>
+                        <b>Date: </b><span id="original-card-date7"></span><br>
+                        <p id="original-card-des7">...</p>
+                        <a id="original-card-a7" target="view_window">See Original Post</a>
+                    </div>
+                    <a class="delete" href="javascript:void(0);" onclick="clickDelete(7)">×</a>
+                </div>
+                <div class="search-card" id="search-card8" onclick="clickCard(8)">
+                    <div class="img" id="search-card-img8"></div>
+                    <div class="container">
+                        <h4><b id="search-card-title8">test</b></h4>
+                        <p id="search-card-des8">...</p>
+                    </div>
+                </div>
+                <div class="original-card" id="original-card8">
+                    <div class="img" id="original-card-img8"></div>
+                    <div class="container">
+                        <h4><b id="original-card-title8">test</b></h4>
+                        <b>Author: </b><span id="original-card-author8"></span><br>
+                        <b>Source: </b><span id="original-card-source8"></span><br>
+                        <b>Date: </b><span id="original-card-date8"></span><br>
+                        <p id="original-card-des8">...</p>
+                        <a id="original-card-a8" target="view_window">See Original Post</a>
+                    </div>
+                    <a class="delete" href="javascript:void(0);" onclick="clickDelete(8)">×</a>
+                </div>
+                <div class="search-card" id="search-card9" onclick="clickCard(9)">
+                    <div class="img" id="search-card-img9"></div>
+                    <div class="container">
+                        <h4><b id="search-card-title9">test</b></h4>
+                        <p id="search-card-des9">...</p>
+                    </div>
+                </div>
+                <div class="original-card" id="original-card9">
+                    <div class="img" id="original-card-img9"></div>
+                    <div class="container">
+                        <h4><b id="original-card-title9">test</b></h4>
+                        <b>Author: </b><span id="original-card-author9"></span><br>
+                        <b>Source: </b><span id="original-card-source9"></span><br>
+                        <b>Date: </b><span id="original-card-date9"></span><br>
+                        <p id="original-card-des9">...</p>
+                        <a id="original-card-a9" target="view_window">See Original Post</a>
+                    </div>
+                    <a class="delete" href="javascript:void(0);" onclick="clickDelete(9)">×</a>
+                </div>
+                <div class="search-card" id="search-card10" onclick="clickCard(10)">
+                    <div class="img" id="search-card-img10"></div>
+                    <div class="container">
+                        <h4><b id="search-card-title10">test</b></h4>
+                        <p id="search-card-des10">...</p>
+                    </div>
+                </div>
+                <div class="original-card" id="original-card10">
+                    <div class="img" id="original-card-img10"></div>
+                    <div class="container">
+                        <h4><b id="original-card-title10">test</b></h4>
+                        <b>Author: </b><span id="original-card-author10"></span><br>
+                        <b>Source: </b><span id="original-card-source10"></span><br>
+                        <b>Date: </b><span id="original-card-date10"></span><br>
+                        <p id="original-card-des10">...</p>
+                        <a id="original-card-a10" target="view_window">See Original Post</a>
+                    </div>
+                    <a class="delete" href="javascript:void(0);" onclick="clickDelete(10)">×</a>
+                </div>
+                <div class="search-card" id="search-card11" onclick="clickCard(11)">
+                    <div class="img" id="search-card-img11"></div>
+                    <div class="container">
+                        <h4><b id="search-card-title11">test</b></h4>
+                        <p id="search-card-des11">...</p>
+                    </div>
+                </div>
+                <div class="original-card" id="original-card11">
+                    <div class="img" id="original-card-img11"></div>
+                    <div class="container">
+                        <h4><b id="original-card-title11">test</b></h4>
+                        <b>Author: </b><span id="original-card-author11"></span><br>
+                        <b>Source: </b><span id="original-card-source11"></span><br>
+                        <b>Date: </b><span id="original-card-date11"></span><br>
+                        <p id="original-card-des11">...</p>
+                        <a id="original-card-a11" target="view_window">See Original Post</a>
+                    </div>
+                    <a class="delete" href="javascript:void(0);" onclick="clickDelete(11)">×</a>
+                </div>
+                <div class="search-card" id="search-card12" onclick="clickCard(12)">
+                    <div class="img" id="search-card-img12"></div>
+                    <div class="container">
+                        <h4><b id="search-card-title12">test</b></h4>
+                        <p id="search-card-des12">...</p>
+                    </div>
+                </div>
+                <div class="original-card" id="original-card12">
+                    <div class="img" id="original-card-img12"></div>
+                    <div class="container">
+                        <h4><b id="original-card-title12">test</b></h4>
+                        <b>Author: </b><span id="original-card-author12"></span><br>
+                        <b>Source: </b><span id="original-card-source12"></span><br>
+                        <b>Date: </b><span id="original-card-date12"></span><br>
+                        <p id="original-card-des12">...</p>
+                        <a id="original-card-a12" target="view_window">See Original Post</a>
+                    </div>
+                    <a class="delete" href="javascript:void(0);" onclick="clickDelete(12)">×</a>
+                </div>
+                <div class="search-card" id="search-card13" onclick="clickCard(13)">
+                    <div class="img" id="search-card-img13"></div>
+                    <div class="container">
+                        <h4><b id="search-card-title13">test</b></h4>
+                        <p id="search-card-des13">...</p>
+                    </div>
+                </div>
+                <div class="original-card" id="original-card13">
+                    <div class="img" id="original-card-img13"></div>
+                    <div class="container">
+                        <h4><b id="original-card-title13">test</b></h4>
+                        <b>Author: </b><span id="original-card-author13"></span><br>
+                        <b>Source: </b><span id="original-card-source13"></span><br>
+                        <b>Date: </b><span id="original-card-date13"></span><br>
+                        <p id="original-card-des13">...</p>
+                        <a id="original-card-a13" target="view_window">See Original Post</a>
+                    </div>
+                    <a class="delete" href="javascript:void(0);" onclick="clickDelete(13)">×</a>
+                </div>
+                <div class="search-card" id="search-card14" onclick="clickCard(14)">
+                    <div class="img" id="search-card-img14"></div>
+                    <div class="container">
+                        <h4><b id="search-card-title14">test</b></h4>
+                        <p id="search-card-des14">...</p>
+                    </div>
+                </div>
+                <div class="original-card" id="original-card14">
+                    <div class="img" id="original-card-img14"></div>
+                    <div class="container">
+                        <h4><b id="original-card-title14">test</b></h4>
+                        <b>Author: </b><span id="original-card-author14"></span><br>
+                        <b>Source: </b><span id="original-card-source14"></span><br>
+                        <b>Date: </b><span id="original-card-date14"></span><br>
+                        <p id="original-card-des14">...</p>
+                        <a id="original-card-a14" target="view_window">See Original Post</a>
+                    </div>
+                    <a class="delete" href="javascript:void(0);" onclick="clickDelete(14)">×</a>
+                </div>
+                <button id="showless" onclick="clickLess()">Show Less</button>
+                <p id="no-results" style="font-family: Georgia, 'Times New Roman', Times, serif; display: none">No results</p>
+            </div>
+        </div>
+        <script>
+            var currDate = new Date();
+            var fromDate = new Date(currDate - 7 * 24 * 3600 * 1000);
+            var day = ('0' + currDate.getDate()).slice(-2);
+            var month = ('0' + (currDate.getMonth() + 1)).slice(-2);
+            var date = currDate.getFullYear() + '-' + month + '-' + day;
+            document.getElementById("to").defaultValue = date.toString();
+            day = ('0' + fromDate.getDate()).slice(-2);
+            month = ('0' + (fromDate.getMonth() + 1)).slice(-2);
+            date = fromDate.getFullYear() + '-' + month + '-' + day;
+            document.getElementById("from").defaultValue = date.toString();
+            var category = document.getElementById("category").value;
+            fetch('/api/source',{
+                method:'GET',
+                credentials:'include'
+            }).then(function(response){
+                response.json().then(function(data){
+                    var sources = data[category]['sources'];
+                    var objSelect = document.getElementById('source');
+                    objSelect.length = 1;
+                    for(var i = 0; i < sources.length; i++){
+                        var sourceId = sources[i]['id'];
+                        var sourceName = sources[i]['name'];
+                        objSelect.options[objSelect.length] = new Option(sourceName, sourceId);
+                    }
+                })
+            }).catch(function(e){
+                console.log('error: ' + e.toString());
+            })
+
+            function getSources(){
+                var category = document.getElementById("category").value;
+                fetch('/api/source',{
+                    method:'GET',
+                    credentials:'include'
+                }).then(function(response){
+                    response.json().then(function(data){
+                        var sources = data[category]['sources'];
+                        var objSelect = document.getElementById('source');
+                        objSelect.length = 1;
+                        for(var i = 0; i < sources.length; i++){
+                            var sourceId = sources[i]['id'];
+                            var sourceName = sources[i]['name'];
+                            objSelect.options[objSelect.length] = new Option(sourceName, sourceId);
+                        }
+                    })
+                }).catch(function(e){
+                    console.log('error: ' + e.toString());
+                })  
+            }
+
+            function submitcheck(){
+                var from = document.getElementById("from").value;
+                var to = document.getElementById("to").value;
+                var fromDate = new Date(from);
+                var toDate = new Date(to);
+                if(fromDate.getTime() > toDate.getTime()){
+                    alert("Incorrect time");
+                    return false;
+                }
+                return true;
+            }
+
+            window.addEventListener("load", function(){
+                function mySubmit(){
+                    let FD = new FormData(document.getElementById('form'));
+                    fetch('/',{
+                        method:'POST',
+                        body:FD
+                    }).then(function(response){
+                        getSearch();
+                    })
+                }
+                function getSearch(){
+                    fetch('/api/search',{
+                        method:'GET',
+                        credentials:'include'
+                    }).then(function(response){
+                        response.json().then(function(data){
+                            clearSearch();
+                            var searchRes = data['search'];
+                            if(searchRes.length > 0 && searchRes[0]['status'] == 'error'){
+                                alert(searchRes[0]['message']);
+                                return;
+                            }
+                            if(searchRes.length == 0){
+                                document.getElementById('no-results').style.display = "block";
+                                return;
+                            }
+                            if(searchRes.length > 5){
+                                document.getElementById('showmore').style.display = 'block';
+                                for(var i = 5; i < searchRes.length; i++){
+                                    document.getElementById('search-card' + i).classList.add('toShow');
+                                    document.getElementById('search-card-img' + i).style.backgroundImage = 'url(' + searchRes[i]['urlToImage'] + ')';
+                                    document.getElementById('search-card-title' + i).innerHTML = searchRes[i]['title'];
+                                    document.getElementById('original-card-img' + i).style.backgroundImage = 'url(' + searchRes[i]['urlToImage'] + ')';
+                                    document.getElementById('original-card-title' + i).innerHTML = searchRes[i]['title'];
+                                    document.getElementById('original-card-des' + i).innerHTML = searchRes[i]['description'];
+                                    document.getElementById('original-card-author' + i).innerHTML= searchRes[i]['author'];
+                                    document.getElementById('original-card-source' + i).innerHTML = searchRes[i]['source']['name'];      
+                                    var publishedAt = searchRes[i]['publishedAt'];
+                                    publishedAt = publishedAt.slice(0, 10);
+                                    var date = publishedAt.slice(5, 7) + '/' + publishedAt.slice(8, 10) + '/' + publishedAt.slice(0, 4);
+                                    document.getElementById('original-card-date' + i).innerHTML = date;
+                                    document.getElementById('original-card-a' + i).href = searchRes[i]['url'];
+
+                                    var description = searchRes[i]['description'];
+                                    if(description.length > 70){
+                                        description = description.slice(0, 70);
+                                        for(var j = 69; j >= 0; j--){
+                                            if(description[j] == ' ')
+                                                break;
+                                        }
+                                        description = description.slice(0, j) + "...";
+                                    }
+                                    document.getElementById('search-card-des' + i).innerHTML = description;
+                                }
+                            }
+                                
+                            for(var i = 0; i < Math.min(searchRes.length, 5); i++){
+                                document.getElementById('search-card' + i).style.display = 'block';
+                                document.getElementById('search-card-img' + i).style.backgroundImage = 'url(' + searchRes[i]['urlToImage'] + ')';
+                                document.getElementById('search-card-title' + i).innerHTML = searchRes[i]['title'];
+                                document.getElementById('original-card-img' + i).style.backgroundImage = 'url(' + searchRes[i]['urlToImage'] + ')';
+                                document.getElementById('original-card-title' + i).innerHTML = searchRes[i]['title'];
+                                document.getElementById('original-card-des' + i).innerHTML = searchRes[i]['description'];
+                                document.getElementById('original-card-author' + i).innerHTML= searchRes[i]['author'];
+                                document.getElementById('original-card-source' + i).innerHTML = searchRes[i]['source']['name'];      
+                                var publishedAt = searchRes[i]['publishedAt'];
+                                publishedAt = publishedAt.slice(0, 10);
+                                var date = publishedAt.slice(5, 7) + '/' + publishedAt.slice(8, 10) + '/' + publishedAt.slice(0, 4);
+                                document.getElementById('original-card-date' + i).innerHTML = date;
+                                document.getElementById('original-card-a' + i).href = searchRes[i]['url'];
+
+                                var description = searchRes[i]['description'];
+                                    if(description.length > 70){
+                                        description = description.slice(0, 70);
+                                        for(var j = 69; j >= 0; j--){
+                                            if(description[j] == ' ')
+                                                break;
+                                        }
+                                        description = description.slice(0, j) + "...";
+                                    }
+                                    document.getElementById('search-card-des' + i).innerHTML = description;
+                            }
+
+                        })
+                    }).catch(function(e){
+                       console.log('error: ' + e.toString());
+                    })
+                }
+                document.getElementById('form').addEventListener("submit", function(event){
+                    event.preventDefault();
+                    mySubmit();
+                });
+            });
+
+            function clickCard(i){
+                document.getElementById('search-card' + i).style.display = "none";
+                document.getElementById('original-card' + i).style.display = "block";
+            }
+            function clickDelete(i){
+                document.getElementById('search-card' + i).style.display = "block";
+                document.getElementById('original-card' + i).style.display = "none";
+                return false;
+            }
+            function clearSearch(){
+                for(var i = 0; i < 15; i++){
+                    document.getElementById('search-card' + i).style.display = "none";
+                    document.getElementById('original-card' + i).style.display = "none";
+                    document.getElementById('search-card' + i).classList.remove('toShow');
+                }
+                document.getElementById('showmore').style.display = "none";
+                document.getElementById('showless').style.display = "none";
+                document.getElementById('no-results').style.display = "none";
+            }
+            function clickMore(){
+                document.getElementById('showmore').style.display = 'none';
+                document.getElementById('showless').style.display = 'block';
+                var cards = document.getElementsByClassName('toShow');
+                for(var i = 0; i < cards.length; i++){
+                    cards[i].style.display = 'block';
+                }
+            }
+            function clickLess(){
+                document.getElementById('showmore').style.display = 'block';
+                document.getElementById('showless').style.display = 'none';
+                var cards = document.getElementsByClassName('toShow');
+                for(var i = 0; i < cards.length; i++){
+                    cards[i].style.display = 'none';
+                }
+            }
+        </script>
+        <script>
+            fetch('/api/cnn',{
+                 method:'GET',
+                 credentials:'include'
+            }).then(function(response){
+                response.json().then(function(data){
+                    var i;
+                    for(i = 0; i < 4; i++){
+                        document.getElementById('card-cnn-img' + i).style.backgroundImage = "url(" + data["cnn_headlines"][i]["urlToImage"] + ")";
+                        document.getElementById('card-cnn-a' + i).href = data["cnn_headlines"][i]["url"];
+                        document.getElementById('card-cnn-title' + i).innerHTML = data["cnn_headlines"][i]["title"];
+                        document.getElementById('card-cnn-des' + i).innerHTML = data["cnn_headlines"][i]["description"];
+                    }
+                })
+            }).catch(function(e){
+                console.log('error: ' + e.toString());
+            })
+
+            fetch('/api/fox',{
+                 method:'GET',
+                 credentials:'include'
+            }).then(function(response){
+                response.json().then(function(data){
+                    var i;
+                    for(i = 0; i < 4; i++){
+                        document.getElementById('card-fox-img' + i).style.backgroundImage = "url(" + data["fox_headlines"][i]["urlToImage"] + ")";
+                        document.getElementById('card-fox-a' + i).href = data["fox_headlines"][i]["url"];
+                        document.getElementById('card-fox-title' + i).innerHTML = data["fox_headlines"][i]["title"];
+                        document.getElementById('card-fox-des' + i).innerHTML = data["fox_headlines"][i]["description"];
+                    }
+                })
+            }).catch(function(e){
+                console.log('error: ' + e.toString());
+            })
+
+        </script>
+        <script>
+            fetch('/api/slide',{
+                 method:'GET',
+                 credentials:'include'
+            }).then(function(response){
+                response.json().then(function(data){
+                    var i;
+                    for(i = 0; i < 5; i++){
+                        document.getElementById('slide' + i).style.backgroundImage = "url(" + data["slide"][i]["urlToImage"] + ")";
+                        document.getElementById('slide-a' + i).href = data["slide"][i]["url"];
+                        document.getElementById('slide-title' + i).innerHTML = data["slide"][i]["title"];
+                        document.getElementById('slide-des' + i).innerHTML = data["slide"][i]["description"];
+                    }
+                })
+            }).catch(function(e){
+                console.log('error: ' + e.toString());
+            })
+        </script>
+        <script>
+            var slideIndex = 0;
+            showSlides();
+
+            function showSlides(){
+                var i;
+                var slides = document.getElementsByClassName("slide");
+                for(i = 0; i < slides.length; i++){
+                    slides[i].style.display = "none";
+                }
+                slideIndex++;
+                if(slideIndex > slides.length)
+                    slideIndex = 1;
+                slides[slideIndex - 1].style.display = "flex";
+                setTimeout(showSlides, 2000);
+            }
+        </script>
+        <script>
+            var myWords = new Array(25);
+            fetch('/api/word_cloud',{
+                 method:'GET',
+                 credentials:'include'
+            }).then(function(response){
+                response.json().then(function(data){
+                    var i = 0;
+                    var maxSize = 0;
+                    for(var key in data){
+                        if(data[key] > maxSize)
+                            maxSize = data[key];
+                    }
+                    for(var key in data){
+                        myWords[i] = {word: key, size: (parseInt(data[key] / maxSize * 20 + 10)).toString()};
+                        i++;
+                    }
+                    // set the dimensions and margins of the graph
+                    var margin = {top: 0, right: 0, bottom: 0, left: 0},
+                        width = 250 - margin.left - margin.right,
+                        height = 200 - margin.top - margin.bottom;
+
+                    // append the svg object to the body of the page
+                    var svg = d3.select("#wordCloud").append("svg")
+                    .attr("width", width + margin.left + margin.right)
+                    .attr("height", height + margin.top + margin.bottom)
+                    .append("g")
+                    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+                    // Constructs a new cloud layout instance. It run an algorithm to find the position of words that suits your requirements
+                    // Wordcloud features that are different from one word to the other must be here
+                    var layout = d3.layout.cloud()
+                    .size([width, height])
+                    .words(myWords.map(function(d) { 
+                        return {text: d.word, size:d.size}; 
+                        }))
+                    .padding(2)        //space between words
+                    .rotate(function() { return ~~(Math.random() * 2) * 90; })
+                    .fontSize(function(d) { return d.size; })      // font size of words
+                    .on("end", draw);
+                    layout.start();
+
+                    // This function takes the output of 'layout' above and draw the words
+                    // Wordcloud features that are THE SAME from one word to the other can be here
+                    function draw(words) {
+                       svg.append("g")
+                      .attr("transform", "translate(" + layout.size()[0] / 2 + "," + layout.size()[1] / 2 + ")")
+                      .selectAll("text")
+                      .data(words)
+                      .enter().append("text")
+                      .style("font-size", function(d) { return d.size + 'px'; })
+                      .style("fill", "black")
+                      .attr("text-anchor", "middle")
+                      .style("font-family", "Impact")
+                      .attr("transform", function(d) {
+                          return "translate(" + [d.x, d.y] + ")rotate(" + d.rotate + ")";
+                          }).text(function(d) { return d.text; });
+                          }
+                      })
+                }).catch(function(e){
+                console.log('error: ' + e.toString());
+            })
+        </script>
+    </body>
+</html>
